@@ -32,6 +32,9 @@ int main()
 			p.InitPlayer();
 			cp.ForgePlayer(p);
 			break;
+		case SCREEN_COUNTRY_SELECT:
+			cp.CountrySelect(p);
+			break;
 		case SCREEN_LOAD:
 			break;
 		case SCREEN_SETTINGS:

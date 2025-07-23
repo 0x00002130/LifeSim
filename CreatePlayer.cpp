@@ -2,10 +2,11 @@
 
 void CreatePlayer::ForgePlayer(Player& p)
 {
+	ClearBackground(LIME);
     float boxWidth = 300;
     float boxHeight = 50;
     float spacing = 30;
-    float numBoxes = 2; // Nome e Cognome
+    float numBoxes = 2; // Name and Surname
 
     float boxX = (GetScreenWidth() - boxWidth) / 2;
     float boxY = (GetScreenHeight() - (boxHeight * numBoxes + spacing * (numBoxes - 1))) / 2;
@@ -13,9 +14,9 @@ void CreatePlayer::ForgePlayer(Player& p)
     static int activeBox = 0; // 0 = name, 1 = surname
     static bool showError = false;
     static int errorTimer = 0;
-    const int errorDuration = 120; // frame (2 secondi a 60fps)
+    const int errorDuration = 120; // frame (2 seconds at 60 FPS)
 
-    // Casella per il nome
+	// Name box position
     static TextBox boxName = { Rectangle{boxX, boxY, boxWidth, boxHeight}, "" };
     boxName.fontSize = 24;
     boxName.boxColor = LIGHTGRAY;
@@ -24,7 +25,7 @@ void CreatePlayer::ForgePlayer(Player& p)
     boxName.spacing = 1.0f;
     boxName.maxLength = 32;
 
-    // Casella per il cognome
+	// Surname box position
     static TextBox boxSurname = { Rectangle{boxX, boxY + boxHeight + spacing, boxWidth, boxHeight}, "" };
     boxSurname.fontSize = 24;
     boxSurname.boxColor = LIGHTGRAY;
@@ -33,30 +34,30 @@ void CreatePlayer::ForgePlayer(Player& p)
     boxSurname.spacing = 1.0f;
     boxSurname.maxLength = 32;
 
-    // Imposta il box attivo
+	// Sets the active box based on the current activeBox index
     boxName.active = (activeBox == 0);
     boxSurname.active = (activeBox == 1);
 
-    // Cambia focus con TAB
+	// Change focus with Tab key
     if (IsKeyPressed(KEY_TAB)) {
         activeBox = (activeBox + 1) % 2;
     }
 
-    // Gestione caselle
+    // Box management
     IsTextBoxActive(boxName);
     UpdateTextBox(boxName);
     IsTextBoxActive(boxSurname);
     UpdateTextBox(boxSurname);
 
-    // Validazione e feedback visivo
+    // Validation and visual feedback
     std::string name = GetTextBoxContent(boxName);
     std::string surname = GetTextBoxContent(boxSurname);
 
-    // Reset colori bordo
+    // Reset border colors
     boxName.borderColor = DARKGRAY;
     boxSurname.borderColor = DARKGRAY;
 
-    // Conferma entrambi i campi con Invio solo se non sono vuoti
+    // Confirm both fields with Enter only if they are not empty
     if (IsKeyPressed(KEY_ENTER)) {
         if (name.empty() || surname.empty()) {
             showError = true;
@@ -72,27 +73,43 @@ void CreatePlayer::ForgePlayer(Player& p)
             showError = false;
             TraceLog(LOG_INFO, TextFormat("Player name confirmed: %s", p.GetName().c_str()));
             TraceLog(LOG_INFO, TextFormat("Player surname confirmed: %s", p.GetSurname().c_str()));
+            currentScreen = SCREEN_COUNTRY_SELECT;
         }
     }
 
-    // Etichette sopra le caselle, centrate orizzontalmente
+    // Labels above boxes, centered horizontally
     Vector2 labelNameSize = MeasureTextEx(font, "Nome", 24, 1);
     Vector2 labelNamePos = { boxX + (boxWidth - labelNameSize.x) / 2, boxY - labelNameSize.y - 6 };
-    DrawTextEx(font, "Nome", labelNamePos, 24, 1, DARKGRAY);
+    DrawTextEx(font, "Name", labelNamePos, 24, 1, DARKGRAY);
 
     Vector2 labelSurnameSize = MeasureTextEx(font, "Cognome", 24, 1);
     Vector2 labelSurnamePos = { boxX + (boxWidth - labelSurnameSize.x) / 2, boxY + boxHeight + spacing - labelSurnameSize.y - 6 };
-    DrawTextEx(font, "Cognome", labelSurnamePos, 24, 1, DARKGRAY);
+    DrawTextEx(font, "Surname", labelSurnamePos, 24, 1, DARKGRAY);
 
-    // Disegna le caselle con il colore corretto
+	// Label to press Enter key to confirm
+	Vector2 confirmTextSize = MeasureTextEx(font, "Premi Invio per confermare", 24, 1);
+	Vector2 confirmTextPos = { boxX + (boxWidth - confirmTextSize.x) / 2, boxY + boxHeight * numBoxes + spacing * (numBoxes - 1) + 10 };
+	DrawTextEx(font, "Press Enter to confirm", confirmTextPos, 24, 1, DARKGRAY);
+
+    // Draw the boxes with the correct color
     DrawTextBox(boxName);
     DrawTextBox(boxSurname);
 
-    // DA VEDERE
-    // Mostra messaggio di errore se necessario
+    // Show error message if necessary
     if (showError) {
 		Vector2 positionText = { boxX + boxWidth / 2, boxY + boxHeight * 2 + spacing };
-        DrawTextEx(font, "Compila tutti i campi!", positionText, 24, 1, RED);
+        DrawTextEx(font, "Fill in all fields!", positionText, 24, 1, RED);
         if (--errorTimer <= 0) showError = false;
     }
+}
+
+void CreatePlayer::CountrySelect(Player& p)
+{
+    ClearBackground(LIME);
+    // Placeholder for country selection logic
+    Vector2 position = { static_cast<float>(GetScreenWidth() / 2 - 100), static_cast<float>(GetScreenHeight() / 2 - 20) };
+    DrawTextEx(font, "Country selection not implemented yet.", position, 24, 1, DARKGRAY);
+
+    // Suppress warning C4100: 'p': parametro senza riferimenti
+    (void)p;
 }
