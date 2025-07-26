@@ -14,6 +14,7 @@ void Player::InitPlayer()
 // Getter implementations
 std::string Player::GetName() const { return name; }
 std::string Player::GetSurname() const { return surname; }
+std::string Player::GetNationality() const { return nationality; }
 int Player::GetAge() const { return age; }
 int Player::GetHealth() const { return health; }
 int Player::GetHappiness() const { return happiness; }
@@ -22,6 +23,7 @@ double Player::GetMoney() const { return money; }
 // Setter implementations
 void Player::SetName(const std::string& newName) { name = newName; }
 void Player::SetSurname(const std::string& newSurname) { surname = newSurname; }
+void Player::SetNationality(const std::string& newNationality) { nationality = newNationality; }
 void Player::SetAge(int newAge) { age = newAge; }
 void Player::SetHealth(int newHealth) { health = newHealth; }
 void Player::SetHappiness(int newHappiness) { happiness = newHappiness; }

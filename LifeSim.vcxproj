@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="CreatePlayer.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="StartMenu.h" />

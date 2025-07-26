@@ -67,3 +67,21 @@ const std::string& GetTextBoxContent(const TextBox& tb) {
 bool IsTextBoxConfirmed(const TextBox& tb) {
     return tb.active && IsKeyPressed(KEY_ENTER);
 }
+
+std::vector<std::string> LoadCountriesFromJson(const std::string& filename) {
+    std::vector<std::string> countries;
+    try {
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            TraceLog(LOG_ERROR, TextFormat("Impossible to open file: %s", filename.c_str()));
+            return countries;
+        }
+        nlohmann::json j;
+        file >> j;
+        countries = j.get<std::vector<std::string>>();
+    }
+    catch (const std::exception& e) {
+        TraceLog(LOG_ERROR, TextFormat("Error in parsing JSON: %s", e.what()));
+    }
+    return countries;
+}

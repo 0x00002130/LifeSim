@@ -2,6 +2,9 @@
 #include "raylib.h"
 #include "iostream"
 #include "Random.h"
+#include "json.hpp"
+#include "vector"
+#include "fstream"
 
 // WINDOW CONTROL
 #define SCREENWIDTH 800
@@ -41,6 +44,9 @@ struct TextBox {
     bool active = false;
     int maxLength = 64;
 };
+
+// LOAD JSON FILES
+std::vector<std::string> LoadCountriesFromJson(const std::string& filename);                                                           // LOAD COUNTRIES FROM JSON FILE
 
 // HELPFUL FUNCTIONS
 bool IsButtonClicked(Button& btn);                                                                                        // CHECK IF BUTTON IS CLICKED

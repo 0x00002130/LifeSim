@@ -17,6 +17,7 @@ public:
     // Getter
     std::string GetName() const;
     std::string GetSurname() const;
+	std::string GetNationality() const;
     int GetAge() const;
     int GetHealth() const;
     int GetHappiness() const;
@@ -25,6 +26,7 @@ public:
     // Setter
     void SetName(const std::string& newName);
     void SetSurname(const std::string& newSurname);
+	void SetNationality(const std::string& newNationality);
     void SetAge(int newAge);
     void SetHealth(int newHealth);
     void SetHappiness(int newHappiness);
