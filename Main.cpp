@@ -18,7 +18,7 @@ int main()
 
 	SetTargetFPS(TARGET_FPS);
 
-	font = LoadFont("assets/fonts/Roboto-Italic-VariableFont_wdth,wght.ttf");
+	font = LoadFont("C:\\Users\\marco\\source\\repos\\LifeSim\\assets\\fonts\\Roboto-Italic-VariableFont_wdth,wght.ttf");
 
 	while (!WindowShouldClose()) {
 		BeginDrawing();
