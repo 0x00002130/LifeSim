@@ -14,6 +14,19 @@ private:
     int happiness{};
     double money{};
 
+    struct Intelligence {
+		double linguistic{};
+		double logical{};
+		double spatial{};
+		double bodily{};
+		double musical{};
+		double interpersonal{};
+		double intrapersonal{};
+		double naturalistic{};
+    };
+
+	Intelligence intelligence{};
+
     enum Sign {
         aries,
         taurus,
@@ -42,6 +55,15 @@ public:
     int GetHealth() const;
     int GetHappiness() const;
     double GetMoney() const;
+    double GetLinguisticIntelligence() const;
+    double GetLogicalIntelligence() const;
+    double GetSpatialIntelligence() const;
+    double GetBodilyIntelligence() const;
+    double GetMusicalIntelligence() const;
+    double GetInterpersonalIntelligence() const;
+    double GetIntrapersonalIntelligence() const;
+    double GetNaturalisticIntelligence() const;
+
 
     // Setter
     void SetName(const std::string& newName);
@@ -53,4 +75,13 @@ public:
     void SetHealth(int newHealth);
     void SetHappiness(int newHappiness);
     void SetMoney(double newMoney);
+    void SetLinguisticIntelligence(double value);
+    void SetLogicalIntelligence(double value);
+    void SetSpatialIntelligence(double value);
+    void SetBodilyIntelligence(double value);
+    void SetMusicalIntelligence(double value);
+    void SetInterpersonalIntelligence(double value);
+    void SetIntrapersonalIntelligence(double value);
+    void SetNaturalisticIntelligence(double value);
+
 };

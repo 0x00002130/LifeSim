@@ -52,8 +52,20 @@ namespace Random
 	template <typename T>
 	T get(T min, T max)
 	{
-		return std::uniform_int_distribution<T>{min, max}(mt);
+		if constexpr (std::is_integral_v<T>)
+		{
+			return std::uniform_int_distribution<T>{min, max}(mt);
+		}
+		else if constexpr (std::is_floating_point_v<T>)
+		{
+			return std::uniform_real_distribution<T>{min, max}(mt);
+		}
+		else
+		{
+			static_assert(std::is_arithmetic_v<T>, "Random::get() only supports arithmetic types.");
+		}
 	}
+
 
 	// Generate a random value between [min, max] (inclusive)
 	// * min and max can have different types
