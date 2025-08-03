@@ -21,7 +21,8 @@ enum GameScreen {
     SCREEN_CREATE_PLAYER,
     SCREEN_LOAD,
     SCREEN_SETTINGS,
-    SCREEN_COUNTRY_SELECT
+    SCREEN_COUNTRY_SELECT,
+	SCREEN_SIGN_SELECT
 };
 
 // STRUCT FOR CREATING BUTTONS
@@ -47,6 +48,10 @@ struct TextBox {
 
 // LOAD JSON FILES
 std::vector<std::string> LoadCountriesFromJson(const std::string& filename);                                                           // LOAD COUNTRIES FROM JSON FILE
+
+
+// LOAD SOUNDS
+Sound LoadSoundFromFile(const std::string& filename);                                                                                 // LOAD SOUND FROM FILE
 
 // HELPFUL FUNCTIONS
 bool IsButtonClicked(Button& btn);                                                                                        // CHECK IF BUTTON IS CLICKED

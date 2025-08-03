@@ -1,5 +1,16 @@
 #include "Globals.h"
 
+Sound LoadSoundFromFile(const std::string& filename) 
+{
+    Sound sound = LoadSound(filename.c_str());
+    if (sound.frameCount == 0) {
+        TraceLog(LOG_ERROR, TextFormat("Failed to load sound from file: %s", filename.c_str()));
+    } else {
+        TraceLog(LOG_INFO, TextFormat("Sound loaded successfully from file: %s", filename.c_str()));
+    }
+	return sound;
+}
+
 bool IsButtonClicked(Button& btn)
 {
     Vector2 mouse = GetMousePosition();

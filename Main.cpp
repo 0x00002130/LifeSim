@@ -18,7 +18,25 @@ int main()
 
 	SetTargetFPS(TARGET_FPS);
 
+	// Initialize font
 	font = LoadFont("C:\\Users\\marco\\source\\repos\\LifeSim\\assets\\fonts\\Roboto-Italic-VariableFont_wdth,wght.ttf");
+	if (font.baseSize == 0) {
+		std::cerr << "Error loading font.\n";
+		return -1;
+	} else {
+		TraceLog(LOG_INFO, "Font loaded successfully.");
+	}
+
+	// Initialize audio device
+	InitAudioDevice();
+	sm.playSound = LoadSound("C:\\Users\\marco\\source\\repos\\LifeSim\\assets\\sounds\\pop-331049.mp3");
+	if (sm.playSound.frameCount == 0) {
+		std::cerr << "Error loading sound.\n";
+		return -1;
+	} else {
+		TraceLog(LOG_INFO, "Sound loaded successfully.");
+	}
+
 
 	while (!WindowShouldClose()) {
 		BeginDrawing();
@@ -34,6 +52,9 @@ int main()
 			break;
 		case SCREEN_COUNTRY_SELECT:
 			cp.CountrySelect(p);
+			break;
+		case SCREEN_SIGN_SELECT:
+			cp.SignSelect(p);
 			break;
 		case SCREEN_LOAD:
 			break;
@@ -51,6 +72,8 @@ int main()
 	}
 
 	UnloadFont(font);
+	UnloadSound(sm.playSound);
+	CloseAudioDevice();
 	CloseWindow();
 
 	return 0;

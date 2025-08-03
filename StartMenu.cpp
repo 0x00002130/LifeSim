@@ -43,6 +43,7 @@ void StartMenu::InitMenu()
 int StartMenu::UpdateMenu()
 {
 	if (IsButtonClicked(play)) {
+		PlaySound(playSound); // Play sound when button is clicked
 		return currentScreen = SCREEN_CREATE_PLAYER;
 	}
 	if (IsButtonClicked(load)) {

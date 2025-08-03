@@ -10,6 +10,8 @@ public:
 	Button load;
 	Button settings;
 	Button exit;
+	
+	Sound playSound;
 
 	void InitMenu();
 	int UpdateMenu();

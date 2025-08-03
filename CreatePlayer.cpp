@@ -33,6 +33,22 @@ void CreatePlayer::ForgePlayer(Player& p)
     boxSurname.textColor = BLACK;
     boxSurname.spacing = 1.0f;
     boxSurname.maxLength = 32;
+    
+	// Button countrySelect positioned down Name and Surname;
+	countryButton.bounds = { Rectangle{ boxX, boxY + boxHeight + boxHeight + boxHeight + spacing, boxWidth, 40}};
+    countryButton.color = WHITE;
+    countryButton.text = "Choose Country";
+    countryButton.textColor = BLACK;
+
+	DrawButton(countryButton);
+
+	// Button signSelect positioned down the countrySelect button
+    signButton.bounds = { Rectangle{ boxX, boxY + boxHeight * 3 + spacing * 2, boxWidth, 40}};
+    signButton.color = WHITE;
+    signButton.text = "Choose Sign";
+    signButton.textColor = BLACK;
+
+	DrawButton(signButton);
 
 	// Sets the active box based on the current activeBox index
     boxName.active = (activeBox == 0);
@@ -57,6 +73,16 @@ void CreatePlayer::ForgePlayer(Player& p)
     boxName.borderColor = DARKGRAY;
     boxSurname.borderColor = DARKGRAY;
 
+    if (IsButtonClicked(countryButton)) {
+        currentScreen = SCREEN_COUNTRY_SELECT; // SET NEXT SCREEN
+        TraceLog(LOG_INFO, "Country selection initiated.");
+	}
+
+    if (IsButtonClicked(signButton)) {
+        currentScreen = SCREEN_SIGN_SELECT; // SET NEXT SCREEN
+        TraceLog(LOG_INFO, "Sign selection initiated.");
+    }
+
     // Confirm both fields with Enter only if they are not empty
     if (IsKeyPressed(KEY_ENTER)) {
         if (name.empty() || surname.empty()) {
@@ -73,9 +99,9 @@ void CreatePlayer::ForgePlayer(Player& p)
             showError = false;
             TraceLog(LOG_INFO, TextFormat("Player name confirmed: %s", p.GetName().c_str()));
             TraceLog(LOG_INFO, TextFormat("Player surname confirmed: %s", p.GetSurname().c_str()));
-            currentScreen = SCREEN_COUNTRY_SELECT;
         }
     }
+
 
     // Labels above boxes, centered horizontally
     Vector2 labelNameSize = MeasureTextEx(font, "Nome", 24, 1);
@@ -86,11 +112,13 @@ void CreatePlayer::ForgePlayer(Player& p)
     Vector2 labelSurnamePos = { boxX + (boxWidth - labelSurnameSize.x) / 2, boxY + boxHeight + spacing - labelSurnameSize.y - 6 };
     DrawTextEx(font, "Surname", labelSurnamePos, 24, 1, WHITE);
 
+    // -------------------------------------------------
 	// Label to press Enter key to confirm
-	Vector2 confirmTextSize = MeasureTextEx(font, "Premi Invio per confermare", 24, 1);
-	Vector2 confirmTextPos = { boxX + (boxWidth - confirmTextSize.x) / 2, boxY + boxHeight * numBoxes + spacing * (numBoxes - 1) + 10 };
-	DrawTextEx(font, "Press Enter to confirm", confirmTextPos, 24, 1, WHITE);
-
+	// Vector2 confirmTextSize = MeasureTextEx(font, "Premi Invio per confermare", 24, 1);
+	// Vector2 confirmTextPos = { boxX + (boxWidth - confirmTextSize.x) / 2, boxY + boxHeight * numBoxes + spacing * (numBoxes - 1) + 10 };
+	// DrawTextEx(font, "Press Enter to confirm", confirmTextPos, 24, 1, WHITE);
+    // -------------------------------------------------
+    
     // Draw the boxes with the correct color
     DrawTextBox(boxName);
     DrawTextBox(boxSurname);
@@ -122,7 +150,7 @@ void CreatePlayer::CountrySelect(Player& p)
         // Save the selected nation in the Player
         p.SetNationality(countries[selectedIndex]);
         TraceLog(LOG_INFO, TextFormat("Selected country: %s", p.GetNationality().c_str()));
-        currentScreen = SCREEN_START_MENU; // SET NEXT SCREEN
+        currentScreen = SCREEN_CREATE_PLAYER; // SET NEXT SCREEN
     }
 
 	// View the list of countries
@@ -143,4 +171,45 @@ void CreatePlayer::CountrySelect(Player& p)
     // Instructions
     Vector2 infoPos = { boxX, boxY - 50 };
     DrawTextEx(font, "Select the country with the arrows and press Enter", infoPos, 24, 1, WHITE);
+}
+
+
+void CreatePlayer::SignSelect(Player& p) {
+    ClearBackground(LIME);
+    
+    static std::vector<std::string> signs = {
+        "Aries", "Taurus", "Gemini", "Cancer", "Leo",
+        "Virgo", "Libra", "Scorpio", "Sagittarius",
+        "Capricorn", "Aquarius", "Pisces"
+	};
+	static int selectedIndex = 0;
+
+    // Input handling
+    if (IsKeyPressed(KEY_DOWN)) {
+        selectedIndex = (selectedIndex + 1) % signs.size();
+    }
+    if (IsKeyPressed(KEY_UP)) {
+        selectedIndex = (selectedIndex - 1 + static_cast<int>(signs.size())) % static_cast<int>(signs.size());
+    }
+    if (IsKeyPressed(KEY_ENTER)) {
+        // Save the selected sign in the Player
+        p.SetSign(signs[selectedIndex]);
+        TraceLog(LOG_INFO, TextFormat("Selected sign: %s", p.GetSign().c_str()));
+        currentScreen = SCREEN_CREATE_PLAYER; // SET NEXT SCREEN
+    }
+    // View the list of signs
+    float boxWidth = 400;
+    float boxHeight = 40;
+    float boxX = (GetScreenWidth() - boxWidth) / 2;
+    float boxY = (GetScreenHeight() - boxHeight) / 2;
+    for (int i = 0; i < 5 && i < signs.size(); ++i) { // Show up to 5 signs
+        int idx = (selectedIndex + i - 2 + static_cast<int>(signs.size())) % static_cast<int>(signs.size());
+        Color color = (idx == selectedIndex) ? YELLOW : LIGHTGRAY;
+        Vector2 pos = { boxX, boxY + (i * boxHeight) };
+        DrawRectangleRec({ pos.x, pos.y, boxWidth, boxHeight }, color);
+        DrawTextEx(font, signs[idx].c_str(), { pos.x + 10, pos.y + 8 }, 24, 1, BLACK);
+    }
+    // Instructions
+    Vector2 infoPos = { boxX, boxY - 50 };
+	DrawTextEx(font, "Select the sign with the arrows and press Enter", infoPos, 24, 1, WHITE);
 }
