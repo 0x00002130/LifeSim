@@ -99,6 +99,7 @@ void CreatePlayer::ForgePlayer(Player& p)
             showError = false;
             TraceLog(LOG_INFO, TextFormat("Player name confirmed: %s", p.GetName().c_str()));
             TraceLog(LOG_INFO, TextFormat("Player surname confirmed: %s", p.GetSurname().c_str()));
+			currentScreen = SCREEN_CREATE_PLAYER; // SET NEXT SCREEN
         }
     }
 
@@ -135,81 +136,107 @@ void CreatePlayer::CountrySelect(Player& p)
 {
     ClearBackground(LIME);
 
-	// Load the list of countries from JSON file
     static std::vector<std::string> countries = LoadCountriesFromJson("C:\\Users\\marco\\source\\repos\\LifeSim\\assets\\countries_data\\countries.json");
     static int selectedIndex = 0;
 
-	// Input handling
+    // === SCROLL CON LA ROTELLINA ===
+    float wheel = GetMouseWheelMove();
+    if (wheel < 0) selectedIndex = (selectedIndex + 1) % countries.size();
+    if (wheel > 0) selectedIndex = (selectedIndex - 1 + static_cast<int>(countries.size())) % static_cast<int>(countries.size());
+
+    // === SCROLL CON I TASTI FRECCIA ===
     if (IsKeyPressed(KEY_DOWN)) {
         selectedIndex = (selectedIndex + 1) % countries.size();
     }
     if (IsKeyPressed(KEY_UP)) {
         selectedIndex = (selectedIndex - 1 + static_cast<int>(countries.size())) % static_cast<int>(countries.size());
     }
+
+    // === CONFERMA SELEZIONE ===
     if (IsKeyPressed(KEY_ENTER)) {
-        // Save the selected nation in the Player
         p.SetNationality(countries[selectedIndex]);
         TraceLog(LOG_INFO, TextFormat("Selected country: %s", p.GetNationality().c_str()));
-        currentScreen = SCREEN_CREATE_PLAYER; // SET NEXT SCREEN
+        currentScreen = SCREEN_CREATE_PLAYER;
     }
 
-	// View the list of countries
+    // === VISUALIZZAZIONE ===
     float boxWidth = 400;
     float boxHeight = 40;
     float boxX = (GetScreenWidth() - boxWidth) / 2;
     float boxY = (GetScreenHeight() - boxHeight) / 2;
 
-	for (int i = 0; i < 5 && i < countries.size(); ++i) { // Show up to 5 countries
-        // Cast countries.size() to int to avoid warning C4244 (conversion from size_t to int)
+    for (int i = 0; i < 5 && i < countries.size(); ++i) {
         int idx = (selectedIndex + i - 2 + static_cast<int>(countries.size())) % static_cast<int>(countries.size());
-        Color color = (idx == selectedIndex) ? YELLOW : LIGHTGRAY;
         Vector2 pos = { boxX, boxY + (i * boxHeight) };
-        DrawRectangleRec({ pos.x, pos.y, boxWidth, boxHeight }, color);
+        Rectangle box = { pos.x, pos.y, boxWidth, boxHeight };
+
+        // === CLICK CON MOUSE ===
+        if (CheckCollisionPointRec(GetMousePosition(), box) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            selectedIndex = idx;
+        }
+
+        Color color = (idx == selectedIndex) ? YELLOW : LIGHTGRAY;
+        DrawRectangleRec(box, color);
         DrawTextEx(font, countries[idx].c_str(), { pos.x + 10, pos.y + 8 }, 24, 1, BLACK);
     }
 
-    // Instructions
     Vector2 infoPos = { boxX, boxY - 50 };
-    DrawTextEx(font, "Select the country with the arrows and press Enter", infoPos, 24, 1, WHITE);
+    DrawTextEx(font, "Scroll with mouse wheel or click. Enter to confirm.", infoPos, 24, 1, WHITE);
 }
+
 
 
 void CreatePlayer::SignSelect(Player& p) {
     ClearBackground(LIME);
-    
+
     static std::vector<std::string> signs = {
         "Aries", "Taurus", "Gemini", "Cancer", "Leo",
         "Virgo", "Libra", "Scorpio", "Sagittarius",
         "Capricorn", "Aquarius", "Pisces"
-	};
-	static int selectedIndex = 0;
+    };
+    static int selectedIndex = 0;
 
-    // Input handling
+    // === SCROLL CON LA ROTELLINA ===
+    float wheel = GetMouseWheelMove();
+    if (wheel < 0) selectedIndex = (selectedIndex + 1) % signs.size();
+    if (wheel > 0) selectedIndex = (selectedIndex - 1 + static_cast<int>(signs.size())) % static_cast<int>(signs.size());
+
+    // === SCROLL CON I TASTI FRECCIA ===
     if (IsKeyPressed(KEY_DOWN)) {
         selectedIndex = (selectedIndex + 1) % signs.size();
     }
     if (IsKeyPressed(KEY_UP)) {
         selectedIndex = (selectedIndex - 1 + static_cast<int>(signs.size())) % static_cast<int>(signs.size());
     }
+
+    // === CONFERMA SELEZIONE ===
     if (IsKeyPressed(KEY_ENTER)) {
-        // Save the selected sign in the Player
         p.SetSign(signs[selectedIndex]);
         TraceLog(LOG_INFO, TextFormat("Selected sign: %s", p.GetSign().c_str()));
-        currentScreen = SCREEN_CREATE_PLAYER; // SET NEXT SCREEN
+        currentScreen = SCREEN_CREATE_PLAYER;
     }
-    // View the list of signs
+
+    // === VISUALIZZAZIONE ===
     float boxWidth = 400;
     float boxHeight = 40;
     float boxX = (GetScreenWidth() - boxWidth) / 2;
     float boxY = (GetScreenHeight() - boxHeight) / 2;
-    for (int i = 0; i < 5 && i < signs.size(); ++i) { // Show up to 5 signs
+
+    for (int i = 0; i < 5 && i < signs.size(); ++i) {
         int idx = (selectedIndex + i - 2 + static_cast<int>(signs.size())) % static_cast<int>(signs.size());
-        Color color = (idx == selectedIndex) ? YELLOW : LIGHTGRAY;
         Vector2 pos = { boxX, boxY + (i * boxHeight) };
-        DrawRectangleRec({ pos.x, pos.y, boxWidth, boxHeight }, color);
+        Rectangle box = { pos.x, pos.y, boxWidth, boxHeight };
+
+        // === CLICK CON MOUSE ===
+        if (CheckCollisionPointRec(GetMousePosition(), box) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            selectedIndex = idx;
+        }
+
+        Color color = (idx == selectedIndex) ? YELLOW : LIGHTGRAY;
+        DrawRectangleRec(box, color);
         DrawTextEx(font, signs[idx].c_str(), { pos.x + 10, pos.y + 8 }, 24, 1, BLACK);
     }
-    // Instructions
+
     Vector2 infoPos = { boxX, boxY - 50 };
-	DrawTextEx(font, "Select the sign with the arrows and press Enter", infoPos, 24, 1, WHITE);
+    DrawTextEx(font, "Scroll with mouse wheel or click. Enter to confirm.", infoPos, 24, 1, WHITE);
 }
