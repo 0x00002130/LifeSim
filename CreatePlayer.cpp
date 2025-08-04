@@ -35,20 +35,27 @@ void CreatePlayer::ForgePlayer(Player& p)
     boxSurname.maxLength = 32;
     
 	// Button countrySelect positioned down Name and Surname;
-	countryButton.bounds = { Rectangle{ boxX, boxY + boxHeight + boxHeight + boxHeight + spacing, boxWidth, 40}};
-    countryButton.color = WHITE;
+	countryButton.bounds = { Rectangle{ boxX, boxY + boxHeight * 3 + spacing, boxWidth, 40}};
+    countryButton.color = BLUE;
     countryButton.text = "Choose Country";
     countryButton.textColor = BLACK;
 
 	DrawButton(countryButton);
 
 	// Button signSelect positioned down the countrySelect button
-    signButton.bounds = { Rectangle{ boxX, boxY + boxHeight * 3 + spacing * 2, boxWidth, 40}};
-    signButton.color = WHITE;
+    signButton.bounds = { Rectangle{ boxX, boxY + boxHeight * 3 + spacing * 3, boxWidth, 40}};
+    signButton.color = BLUE;
     signButton.text = "Choose Sign";
     signButton.textColor = BLACK;
 
 	DrawButton(signButton);
+
+	play.bounds = { Rectangle{ boxX, boxY + boxHeight * 3 + spacing * 5, boxWidth, 40} };
+    play.color = BLUE;
+    play.text = "Play";
+	play.textColor = BLACK;
+
+	DrawButton(play);
 
 	// Sets the active box based on the current activeBox index
     boxName.active = (activeBox == 0);
@@ -84,7 +91,7 @@ void CreatePlayer::ForgePlayer(Player& p)
     }
 
     // Confirm both fields with Enter only if they are not empty
-    if (IsKeyPressed(KEY_ENTER)) {
+    if (IsKeyPressed(KEY_ENTER) || IsButtonClicked(play)) {
         if (name.empty() || surname.empty()) {
             showError = true;
             errorTimer = errorDuration;
@@ -99,7 +106,7 @@ void CreatePlayer::ForgePlayer(Player& p)
             showError = false;
             TraceLog(LOG_INFO, TextFormat("Player name confirmed: %s", p.GetName().c_str()));
             TraceLog(LOG_INFO, TextFormat("Player surname confirmed: %s", p.GetSurname().c_str()));
-			currentScreen = SCREEN_CREATE_PLAYER; // SET NEXT SCREEN
+			currentScreen = SCREEN_INTERFACE; // SET NEXT SCREEN
         }
     }
 

@@ -56,6 +56,8 @@ int main()
 		case SCREEN_SIGN_SELECT:
 			cp.SignSelect(p);
 			break;
+		case SCREEN_INTERFACE:
+			break;
 		case SCREEN_LOAD:
 			break;
 		case SCREEN_SETTINGS:

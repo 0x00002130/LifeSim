@@ -9,6 +9,7 @@ class CreatePlayer
 private:
 	Button countryButton;
 	Button signButton;
+	Button play;
 public:
 	void ForgePlayer(Player& p);
 	void CountrySelect(Player& p);
