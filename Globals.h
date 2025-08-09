@@ -5,6 +5,7 @@
 #include "json.hpp"
 #include "vector"
 #include "fstream"
+#include <variant>
 
 // WINDOW CONTROL
 #define SCREENWIDTH 800
@@ -23,7 +24,8 @@ enum GameScreen {
     SCREEN_SETTINGS,
     SCREEN_COUNTRY_SELECT,
 	SCREEN_SIGN_SELECT,
-    SCREEN_INTERFACE
+    SCREEN_INTERFACE,
+    SCREEN_PLAYER_STATS
 };
 
 // STRUCT FOR CREATING BUTTONS

@@ -137,16 +137,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CreatePlayer.cpp" />
+    <ClCompile Include="GameMenu.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerStats.cpp" />
     <ClCompile Include="StartMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreatePlayer.h" />
+    <ClInclude Include="GameMenu.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerStats.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="StartMenu.h" />
   </ItemGroup>

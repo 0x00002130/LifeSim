@@ -30,6 +30,12 @@
     <ClCompile Include="Player.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="GameMenu.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStats.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StartMenu.h">
@@ -48,6 +54,12 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="json.hpp">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMenu.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStats.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

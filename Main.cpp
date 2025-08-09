@@ -2,11 +2,15 @@
 #include "StartMenu.h"
 #include "Player.h"
 #include "CreatePlayer.h"
+#include "GameMenu.h"
+#include "PlayerStats.h"
 
 Font font;
 StartMenu sm;
 Player p;
 CreatePlayer cp;
+GameMenu gm;
+PlayerStats ps;
 
 GameScreen currentScreen = SCREEN_START_MENU;
 
@@ -20,6 +24,8 @@ int main()
 
 	// Initialize font
 	font = LoadFont("C:\\Users\\marco\\source\\repos\\LifeSim\\assets\\fonts\\Roboto-Italic-VariableFont_wdth,wght.ttf");
+	SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
+
 	if (font.baseSize == 0) {
 		std::cerr << "Error loading font.\n";
 		return -1;
@@ -57,6 +63,10 @@ int main()
 			cp.SignSelect(p);
 			break;
 		case SCREEN_INTERFACE:
+			gm.DrawStartMenu();
+			break;
+		case SCREEN_PLAYER_STATS:
+			ps.DrawPlayerStats(p);
 			break;
 		case SCREEN_LOAD:
 			break;

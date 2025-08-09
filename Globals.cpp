@@ -24,8 +24,8 @@ Vector2 GetTextSize(const std::string& text, float fontSize, float spacing) {
 void DrawTextCentered(const std::string& text, Rectangle bounds, float fontSize, Color color, float spacing) {
     Vector2 textSize = MeasureTextEx(font, text.c_str(), fontSize, spacing);
     Vector2 position = {
-        bounds.x + (bounds.width - textSize.x) / 2,
-        bounds.y + (bounds.height - textSize.y) / 2
+        bounds.x + (bounds.width - textSize.x) / 2.0f,
+        bounds.y + (bounds.height - textSize.y) / 2.0f
     };
     DrawTextEx(font, text.c_str(), position, fontSize, spacing, color);
 }
@@ -33,7 +33,7 @@ void DrawTextCentered(const std::string& text, Rectangle bounds, float fontSize,
 void DrawButton(const Button& button)
 {
     DrawRectangleRec(button.bounds, button.color);
-    DrawTextCentered(button.text, button.bounds, 20, button.textColor);
+    DrawTextCentered(button.text, button.bounds, 20.0f, button.textColor);
 }
 
 bool IsTextBoxActive(TextBox& tb) {
@@ -96,3 +96,4 @@ std::vector<std::string> LoadCountriesFromJson(const std::string& filename) {
     }
     return countries;
 }
+

@@ -51,7 +51,7 @@ void CreatePlayer::ForgePlayer(Player& p)
 	DrawButton(signButton);
 
 	play.bounds = { Rectangle{ boxX, boxY + boxHeight * 3 + spacing * 5, boxWidth, 40} };
-    play.color = BLUE;
+    play.color = GOLD;
     play.text = "Play";
 	play.textColor = BLACK;
 
@@ -146,12 +146,12 @@ void CreatePlayer::CountrySelect(Player& p)
     static std::vector<std::string> countries = LoadCountriesFromJson("C:\\Users\\marco\\source\\repos\\LifeSim\\assets\\countries_data\\countries.json");
     static int selectedIndex = 0;
 
-    // === SCROLL CON LA ROTELLINA ===
+    // === SCROLL WITH MOUSE WHEEL ===
     float wheel = GetMouseWheelMove();
     if (wheel < 0) selectedIndex = (selectedIndex + 1) % countries.size();
     if (wheel > 0) selectedIndex = (selectedIndex - 1 + static_cast<int>(countries.size())) % static_cast<int>(countries.size());
 
-    // === SCROLL CON I TASTI FRECCIA ===
+    // === SCROLL WITH ARROW KEYS ===
     if (IsKeyPressed(KEY_DOWN)) {
         selectedIndex = (selectedIndex + 1) % countries.size();
     }
@@ -159,14 +159,14 @@ void CreatePlayer::CountrySelect(Player& p)
         selectedIndex = (selectedIndex - 1 + static_cast<int>(countries.size())) % static_cast<int>(countries.size());
     }
 
-    // === CONFERMA SELEZIONE ===
+    // === SELECTION CONFIRM ===
     if (IsKeyPressed(KEY_ENTER)) {
         p.SetNationality(countries[selectedIndex]);
         TraceLog(LOG_INFO, TextFormat("Selected country: %s", p.GetNationality().c_str()));
         currentScreen = SCREEN_CREATE_PLAYER;
     }
 
-    // === VISUALIZZAZIONE ===
+    // === VISUALIZATION ===
     float boxWidth = 400;
     float boxHeight = 40;
     float boxX = (GetScreenWidth() - boxWidth) / 2;
@@ -177,7 +177,7 @@ void CreatePlayer::CountrySelect(Player& p)
         Vector2 pos = { boxX, boxY + (i * boxHeight) };
         Rectangle box = { pos.x, pos.y, boxWidth, boxHeight };
 
-        // === CLICK CON MOUSE ===
+        // === CLICK WITH MOUSE ===
         if (CheckCollisionPointRec(GetMousePosition(), box) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             selectedIndex = idx;
         }
@@ -203,12 +203,12 @@ void CreatePlayer::SignSelect(Player& p) {
     };
     static int selectedIndex = 0;
 
-    // === SCROLL CON LA ROTELLINA ===
+    // === SCROLL WITH MOUSE WHEEL ===
     float wheel = GetMouseWheelMove();
     if (wheel < 0) selectedIndex = (selectedIndex + 1) % signs.size();
     if (wheel > 0) selectedIndex = (selectedIndex - 1 + static_cast<int>(signs.size())) % static_cast<int>(signs.size());
 
-    // === SCROLL CON I TASTI FRECCIA ===
+    // === SCROLL WITH ARROW KEYS ===
     if (IsKeyPressed(KEY_DOWN)) {
         selectedIndex = (selectedIndex + 1) % signs.size();
     }
@@ -216,14 +216,14 @@ void CreatePlayer::SignSelect(Player& p) {
         selectedIndex = (selectedIndex - 1 + static_cast<int>(signs.size())) % static_cast<int>(signs.size());
     }
 
-    // === CONFERMA SELEZIONE ===
+    // === SELECTION CONFIRM ===
     if (IsKeyPressed(KEY_ENTER)) {
         p.SetSign(signs[selectedIndex]);
         TraceLog(LOG_INFO, TextFormat("Selected sign: %s", p.GetSign().c_str()));
         currentScreen = SCREEN_CREATE_PLAYER;
     }
 
-    // === VISUALIZZAZIONE ===
+    // === VISUALIZATION ===
     float boxWidth = 400;
     float boxHeight = 40;
     float boxX = (GetScreenWidth() - boxWidth) / 2;
@@ -234,7 +234,7 @@ void CreatePlayer::SignSelect(Player& p) {
         Vector2 pos = { boxX, boxY + (i * boxHeight) };
         Rectangle box = { pos.x, pos.y, boxWidth, boxHeight };
 
-        // === CLICK CON MOUSE ===
+        // === CLICK WITH MOUSE ===
         if (CheckCollisionPointRec(GetMousePosition(), box) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             selectedIndex = idx;
         }
