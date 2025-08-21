@@ -30,9 +30,6 @@ class PlayerStats
 	Button intrapersonalIntelligenceButton;
 	Button naturalisticIntelligenceButton;
 
-	
-	
-
 	// Function to draw player stats
 	void DrawPlayerStats(Player& p);
 

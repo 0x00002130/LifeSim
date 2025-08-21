@@ -6,6 +6,8 @@
 #include "vector"
 #include "fstream"
 #include <variant>
+#include <sstream>
+#include <iomanip>
 
 // WINDOW CONTROL
 #define SCREENWIDTH 800

@@ -6,12 +6,12 @@ void PlayerStats::DrawPlayerStats(Player& p)
 {
     ClearBackground(LIME);
 	// Disegna il pulsante per tornare all'interfaccia
-	backButton.bounds = { 10, 10, 150, 40 };
+	backButton.bounds = { 10, 10, 100, 40 };
 	backButton.color = BLUE;
-	backButton.text = "Back to Interface";
+	backButton.text = "Back";
 	backButton.textColor = BLACK;
 	DrawButton(backButton);
-	// Gestione del click sul pulsante "Back to Interface"
+	// Gestione del click sul pulsante "Back"
     if (IsButtonClicked(backButton)) {
         currentScreen = SCREEN_INTERFACE;
     }
@@ -67,10 +67,21 @@ void PlayerStats::DrawPlayerStats(Player& p)
     }
 }
 
-std::string PlayerStats::StatValueToString(const StatValue& value)
-{
+std::string PlayerStats::StatValueToString(const StatValue& value) {
     return std::visit([](auto&& arg) -> std::string {
-        return std::to_string(arg);
+        using T = std::decay_t<decltype(arg)>;
+
+        if constexpr (std::is_same_v<T, int>) {
+            return std::to_string(arg);
+        }
+        else if constexpr (std::is_same_v<T, double>) {
+            std::ostringstream out;
+            out << std::fixed << std::setprecision(2) << arg; // 2 decimali
+            return out.str();
+        }
+        else {
+            return "N/A";
+        }
         }, value);
 }
 
