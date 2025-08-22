@@ -9,6 +9,7 @@ private:
 	std::string gender{};
     std::string nationality{};
 	std::string sign{};
+    std::string job{};
     int age{};
     int health{};
     int happiness{};
@@ -51,6 +52,7 @@ public:
 	std::string GetNationality() const;
     std::string GetSign() const;
     std::string GetRandomSign() const;
+	std::string GetJob() const;
     int GetAge() const;
     int GetHealth() const;
     int GetHappiness() const;
@@ -71,6 +73,7 @@ public:
 	void SetGender(const std::string& newGender);
 	void SetNationality(const std::string& newNationality);
     void SetSign(const std::string& newSign);
+	void SetJob(const std::string& newJob);
     void SetAge(int newAge);
     void SetHealth(int newHealth);
     void SetHappiness(int newHappiness);

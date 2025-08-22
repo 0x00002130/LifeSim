@@ -7,6 +7,7 @@ void Player::InitPlayer()
 	this->gender = ""; 
 	this->nationality = "";
 	this->sign = "";
+	this->job = "Unemployed";
 	this->age = 0;
 	this->health = Random::get(30, 80);
 	this->happiness = 50;
@@ -27,6 +28,7 @@ std::string Player::GetSurname() const { return surname; }
 std::string Player::GetGender() const { return gender; }
 std::string Player::GetNationality() const { return nationality; }
 std::string Player::GetSign() const { return sign; }
+std::string Player::GetJob() const { return job; }
 int Player::GetAge() const { return age; }
 int Player::GetHealth() const { return health; }
 int Player::GetHappiness() const { return happiness; }
@@ -46,6 +48,7 @@ void Player::SetSurname(const std::string& newSurname) { surname = newSurname; }
 void Player::SetGender(const std::string& newGender) { gender = newGender; }
 void Player::SetNationality(const std::string& newNationality) { nationality = newNationality; }
 void Player::SetSign(const std::string& newSign) { sign = newSign; }
+void Player::SetJob(const std::string& newJob) { job = newJob; }
 void Player::SetAge(int newAge) { age = newAge; }
 void Player::SetHealth(int newHealth) { health = newHealth; }
 void Player::SetHappiness(int newHappiness) { happiness = newHappiness; }
@@ -77,3 +80,5 @@ std::string Player::GetRandomSign() const {
 	}
 	return ""; // Fallback in case of an error
 }
+
+

@@ -4,6 +4,7 @@
 #include "CreatePlayer.h"
 #include "GameMenu.h"
 #include "PlayerStats.h"
+#include "Jobs.h"
 
 Font font;
 StartMenu sm;
@@ -11,6 +12,7 @@ Player p;
 CreatePlayer cp;
 GameMenu gm;
 PlayerStats ps;
+Jobs j;
 
 GameScreen currentScreen = SCREEN_START_MENU;
 
@@ -67,6 +69,9 @@ int main()
 			break;
 		case SCREEN_PLAYER_STATS:
 			ps.DrawPlayerStats(p);
+			break;
+		case SCREEN_JOBS:
+			j.DrawJobs(p);
 			break;
 		case SCREEN_LOAD:
 			break;

@@ -139,6 +139,7 @@
     <ClCompile Include="CreatePlayer.cpp" />
     <ClCompile Include="GameMenu.cpp" />
     <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="Jobs.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerStats.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="CreatePlayer.h" />
     <ClInclude Include="GameMenu.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Jobs.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerStats.h" />
