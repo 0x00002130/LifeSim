@@ -161,7 +161,6 @@ void CreatePlayer::CountrySelect(Player& p)
 
     // === SELECTION CONFIRM ===
     if (IsKeyPressed(KEY_ENTER)) {
-        p.SetNationality(countries[selectedIndex]);
         TraceLog(LOG_INFO, TextFormat("Selected country: %s", p.GetNationality().c_str()));
         currentScreen = SCREEN_CREATE_PLAYER;
     }
