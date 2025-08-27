@@ -45,6 +45,7 @@ int main()
 		TraceLog(LOG_INFO, "Sound loaded successfully.");
 	}
 
+	p.InitPlayer();
 
 	while (!WindowShouldClose()) {
 		BeginDrawing();
@@ -55,12 +56,12 @@ int main()
 			sm.UpdateMenu();
 			break;
 		case SCREEN_CREATE_PLAYER:
-			p.InitPlayer();
 			cp.ForgePlayer(p);
 			break;
-		case SCREEN_COUNTRY_SELECT:
+		case SCREEN_COUNTRY_SELECT: {
 			cp.CountrySelect(p);
 			break;
+		}
 		case SCREEN_SIGN_SELECT:
 			cp.SignSelect(p);
 			break;

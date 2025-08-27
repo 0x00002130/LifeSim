@@ -36,6 +36,7 @@ void Jobs::DrawJobs(Player& p)
 	float totalHeight = numRows * btnHeight + (numRows - 1) * spacing;
 	float startY = (GetScreenHeight() - totalHeight) / 2;
 	std::vector<Button> buttons;
+	// INSERIRE NEL CICLO GLI IF PER I VARI LAVORI
 	for (size_t i = 0; i < totalButtons; i++) {
 		size_t row = i / 2;
 		float y = startY + (btnHeight + spacing) * row;

@@ -29,12 +29,14 @@ class PlayerStats
 	Button interpersonalIntelligenceButton;
 	Button intrapersonalIntelligenceButton;
 	Button naturalisticIntelligenceButton;
+	Button nationalityButton;
+	Button signButton;
 
 	// Function to draw player stats
 	void DrawPlayerStats(Player& p);
 
 
-	using StatValue = std::variant<int, float, double>;
+	using StatValue = std::variant<int, float, double, std::string>;
 	std::string StatValueToString(const StatValue& value);
 };
 

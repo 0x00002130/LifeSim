@@ -42,6 +42,7 @@ void CreatePlayer::ForgePlayer(Player& p)
 
 	DrawButton(countryButton);
 
+
 	// Button signSelect positioned down the countrySelect button
     signButton.bounds = { Rectangle{ boxX, boxY + boxHeight * 3 + spacing * 3, boxWidth, 40}};
     signButton.color = BLUE;
@@ -91,32 +92,56 @@ void CreatePlayer::ForgePlayer(Player& p)
     }
 
     // Confirm both fields with Enter only if they are not empty
-    if (IsKeyPressed(KEY_ENTER) || IsButtonClicked(play)) {
-        if (name.empty() || surname.empty()) {
+    if (IsKeyPressed(KEY_ENTER) || IsButtonClicked(play))
+    {
+        bool missingFields = false;
+
+        if (name.empty()) {
+            boxName.borderColor = RED;
+            missingFields = true;
+        }
+        else boxName.borderColor = DARKGRAY;
+
+        if (surname.empty()) {
+            boxSurname.borderColor = RED;
+            missingFields = true;
+        }
+        else boxSurname.borderColor = DARKGRAY;
+
+        if (p.GetNationality().empty()) {
+            missingFields = true;
+        }
+
+        // --- Error handling ---
+        if (missingFields) {
             showError = true;
             errorTimer = errorDuration;
-            if (name.empty()) boxName.borderColor = RED;
-            if (surname.empty()) boxSurname.borderColor = RED;
-            TraceLog(LOG_WARNING, "First and/or last name cannot be blank!");
-        } else {
+            TraceLog(LOG_WARNING, "All fields must be filled (name, surname, nationality, sign)!");
+        }
+        else
+        {
+            // --- Confirm player data ---
             p.SetName(name);
             p.SetSurname(surname);
-            boxName.active = false;
-            boxSurname.active = false;
+            boxName.active = boxSurname.active = false;
             showError = false;
-            TraceLog(LOG_INFO, TextFormat("Player name confirmed: %s", p.GetName().c_str()));
-            TraceLog(LOG_INFO, TextFormat("Player surname confirmed: %s", p.GetSurname().c_str()));
-			currentScreen = SCREEN_INTERFACE; // SET NEXT SCREEN
+
+            TraceLog(LOG_INFO, TextFormat("Player confirmed: %s %s", p.GetName().c_str(), p.GetSurname().c_str()));
+            TraceLog(LOG_INFO, TextFormat("Player nationality: %s", p.GetNationality().c_str()));
+            TraceLog(LOG_INFO, TextFormat("Player sign: %s", p.GetSign().c_str()));
+
+            currentScreen = SCREEN_INTERFACE;
         }
     }
 
 
+
     // Labels above boxes, centered horizontally
-    Vector2 labelNameSize = MeasureTextEx(font, "Nome", 24, 1);
+    Vector2 labelNameSize = MeasureTextEx(font, "Name", 24, 1);
     Vector2 labelNamePos = { boxX + (boxWidth - labelNameSize.x) / 2, boxY - labelNameSize.y - 6 };
     DrawTextEx(font, "Name", labelNamePos, 24, 1, WHITE);
 
-    Vector2 labelSurnameSize = MeasureTextEx(font, "Cognome", 24, 1);
+    Vector2 labelSurnameSize = MeasureTextEx(font, "Surname", 24, 1);
     Vector2 labelSurnamePos = { boxX + (boxWidth - labelSurnameSize.x) / 2, boxY + boxHeight + spacing - labelSurnameSize.y - 6 };
     DrawTextEx(font, "Surname", labelSurnamePos, 24, 1, WHITE);
 
@@ -146,23 +171,23 @@ void CreatePlayer::CountrySelect(Player& p)
     static std::vector<std::string> countries = LoadCountriesFromJson("C:\\Users\\marco\\source\\repos\\LifeSim\\assets\\countries_data\\countries.json");
     static int selectedIndex = 0;
 
+    std::string chosenCountry = "";
+
     // === SCROLL WITH MOUSE WHEEL ===
     float wheel = GetMouseWheelMove();
     if (wheel < 0) selectedIndex = (selectedIndex + 1) % countries.size();
     if (wheel > 0) selectedIndex = (selectedIndex - 1 + static_cast<int>(countries.size())) % static_cast<int>(countries.size());
 
     // === SCROLL WITH ARROW KEYS ===
-    if (IsKeyPressed(KEY_DOWN)) {
-        selectedIndex = (selectedIndex + 1) % countries.size();
-    }
-    if (IsKeyPressed(KEY_UP)) {
-        selectedIndex = (selectedIndex - 1 + static_cast<int>(countries.size())) % static_cast<int>(countries.size());
-    }
+    if (IsKeyPressed(KEY_DOWN)) selectedIndex = (selectedIndex + 1) % countries.size();
+    if (IsKeyPressed(KEY_UP)) selectedIndex = (selectedIndex - 1 + static_cast<int>(countries.size())) % static_cast<int>(countries.size());
 
     // === SELECTION CONFIRM ===
     if (IsKeyPressed(KEY_ENTER)) {
-        TraceLog(LOG_INFO, TextFormat("Selected country: %s", p.GetNationality().c_str()));
+        chosenCountry = countries[selectedIndex];
+		p.SetNationality(chosenCountry);
         currentScreen = SCREEN_CREATE_PLAYER;
+        TraceLog(LOG_INFO, TextFormat("Selected country: %s", chosenCountry.c_str()));
     }
 
     // === VISUALIZATION ===
@@ -176,7 +201,6 @@ void CreatePlayer::CountrySelect(Player& p)
         Vector2 pos = { boxX, boxY + (i * boxHeight) };
         Rectangle box = { pos.x, pos.y, boxWidth, boxHeight };
 
-        // === CLICK WITH MOUSE ===
         if (CheckCollisionPointRec(GetMousePosition(), box) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             selectedIndex = idx;
         }
@@ -187,8 +211,9 @@ void CreatePlayer::CountrySelect(Player& p)
     }
 
     Vector2 infoPos = { boxX, boxY - 50 };
-    DrawTextEx(font, "Scroll with mouse wheel or click. Enter to confirm.", infoPos, 24, 1, WHITE);
+    DrawTextEx(font, "Scroll with mouse wheel and click Enter to confirm.", infoPos, 24, 1, WHITE);
 }
+
 
 
 
@@ -244,5 +269,5 @@ void CreatePlayer::SignSelect(Player& p) {
     }
 
     Vector2 infoPos = { boxX, boxY - 50 };
-    DrawTextEx(font, "Scroll with mouse wheel or click. Enter to confirm.", infoPos, 24, 1, WHITE);
+    DrawTextEx(font, "Scroll with mouse wheel and click Enter to confirm.", infoPos, 24, 1, WHITE);
 }

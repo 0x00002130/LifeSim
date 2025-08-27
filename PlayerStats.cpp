@@ -36,8 +36,11 @@ void PlayerStats::DrawPlayerStats(Player& p)
         {"Musical Intelligence", p.GetMusicalIntelligence()},
         {"Interpersonal Intelligence", p.GetInterpersonalIntelligence()},
         {"Intrapersonal Intelligence", p.GetIntrapersonalIntelligence()},
-        {"Naturalistic Intelligence", p.GetNaturalisticIntelligence()}
+        {"Naturalistic Intelligence", p.GetNaturalisticIntelligence()},
+        {"Nationality", p.GetNationality()},
+        {"Zodiac Sign", p.GetSign()}
     };
+
 
     size_t totalButtons = stats.size();
     size_t numRows = (totalButtons + 1) / 2;
@@ -76,12 +79,16 @@ std::string PlayerStats::StatValueToString(const StatValue& value) {
         }
         else if constexpr (std::is_same_v<T, double>) {
             std::ostringstream out;
-            out << std::fixed << std::setprecision(2) << arg; // 2 decimali
+            out << std::fixed << std::setprecision(2) << arg;
             return out.str();
+        }
+        else if constexpr (std::is_same_v<T, std::string>) {
+            return arg;
         }
         else {
             return "N/A";
         }
         }, value);
 }
+
 
