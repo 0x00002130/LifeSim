@@ -12,7 +12,9 @@ void CreatePlayer::ForgePlayer(Player& p)
     float boxY = (GetScreenHeight() - (boxHeight * numBoxes + spacing * (numBoxes - 1))) / 2;
 
     static int activeBox = 0; // 0 = name, 1 = surname
-    static bool showError = false;
+    static bool showErrorFields = false;
+	static bool showErrorNationality = false;
+	static bool showErrorSign = false;
     static int errorTimer = 0;
     const int errorDuration = 120; // frame (2 seconds at 60 FPS)
 
@@ -95,6 +97,8 @@ void CreatePlayer::ForgePlayer(Player& p)
     if (IsKeyPressed(KEY_ENTER) || IsButtonClicked(play))
     {
         bool missingFields = false;
+        bool missingNationality = false;
+		bool missingSign = false;
 
         if (name.empty()) {
             boxName.borderColor = RED;
@@ -109,14 +113,28 @@ void CreatePlayer::ForgePlayer(Player& p)
         else boxSurname.borderColor = DARKGRAY;
 
         if (p.GetNationality().empty()) {
-            missingFields = true;
+            missingNationality = true;
         }
+
+        if (p.GetSign().empty()) {
+            missingSign = true;
+		}
 
         // --- Error handling ---
         if (missingFields) {
-            showError = true;
+            showErrorFields = true;
             errorTimer = errorDuration;
-            TraceLog(LOG_WARNING, "All fields must be filled (name, surname, nationality, sign)!");
+            TraceLog(LOG_WARNING, "All fields must be filled (name, surname)!");
+        }
+        else if (missingNationality) {
+            showErrorNationality = true;
+            errorTimer = errorDuration;
+            TraceLog(LOG_WARNING, "You must choose a country!");
+		}
+        else if (missingSign) {
+            showErrorSign = true;
+            errorTimer = errorDuration;
+			TraceLog(LOG_WARNING, "You must choose a sign!");
         }
         else
         {
@@ -124,7 +142,9 @@ void CreatePlayer::ForgePlayer(Player& p)
             p.SetName(name);
             p.SetSurname(surname);
             boxName.active = boxSurname.active = false;
-            showError = false;
+            showErrorFields = false;
+			showErrorNationality = false;
+			showErrorSign = false;
 
             TraceLog(LOG_INFO, TextFormat("Player confirmed: %s %s", p.GetName().c_str(), p.GetSurname().c_str()));
             TraceLog(LOG_INFO, TextFormat("Player nationality: %s", p.GetNationality().c_str()));
@@ -157,10 +177,20 @@ void CreatePlayer::ForgePlayer(Player& p)
     DrawTextBox(boxSurname);
 
     // Show error message if necessary
-    if (showError) {
+    if (showErrorFields) {
 		Vector2 positionText = { boxX + boxWidth / 2, boxY + boxHeight * 2 + spacing };
         DrawTextEx(font, "Fill in all fields!", positionText, 24, 1, RED);
-        if (--errorTimer <= 0) showError = false;
+        if (--errorTimer <= 0) showErrorFields = false;
+    }
+	else if (showErrorNationality) {
+        Vector2 positionText = { boxX + boxWidth / 2, boxY + boxHeight * 2 + spacing };
+        DrawTextEx(font, "You must choose a country!", positionText, 24, 1, RED);
+        if (--errorTimer <= 0) showErrorNationality = false;
+    }
+    else if (showErrorSign) {
+        Vector2 positionText = { boxX + boxWidth / 2, boxY + boxHeight * 2 + spacing };
+        DrawTextEx(font, "You must choose a sign!", positionText, 24, 1, RED);
+		if (--errorTimer <= 0) showErrorSign = false;
     }
 }
 
