@@ -198,7 +198,7 @@ void CreatePlayer::CountrySelect(Player& p)
 {
     ClearBackground(LIME);
 
-    static std::vector<std::string> countries = LoadCountriesFromJson("C:\\Users\\marco\\source\\repos\\LifeSim\\assets\\countries_data\\countries.json");
+    static std::vector<std::string> countries = LoadCountriesFromJson("assets/countries_data/countries.json");
     static int selectedIndex = 0;
 
     std::string chosenCountry = "";
